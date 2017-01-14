@@ -5,8 +5,12 @@ var dimensionalSymbols = ["x","y","z","a","b","c","d","e","f","g","h","i","j","k
 
 p5.prototype.nDist = function (v1, v2) {
     //nDist calculates the euclidean distance between two points(nVector objects), or between 'this' and another point. 
+    return Math.sqrt(nDistSq(v1,v2));
+}
+p5.prototype.nDistSq = function (v1, v2) {
+    //nDist calculates the euclidean distance between two points(nVector objects), or between 'this' and another point. 
     if (arguments.length == 1) {
-        return nDist(this,v1);
+        return nDistSq(this,v1);
     } else {
         var positions = [];
         a1 = Object.keys(v1).map(function(k) { return v1[k] }); //turns v1's values into an array
@@ -16,7 +20,7 @@ p5.prototype.nDist = function (v1, v2) {
         for(var i=0; i < positions.length/2; i++){
             total += Math.pow(positions[i]-positions[i+positions.length/2], 2);
         }
-        return Math.sqrt(total);
+        return total;
     }
 }
 
@@ -72,4 +76,14 @@ p5.prototype.nMag = function(v1) {
         origin[dimensionalSymbols[i]] = 0;
     }
     return nDist(origin,v1);
+}
+
+p5.prototype.nMagSq = function(v1) {
+    //implement magnitude calculation of nVectors
+    var dimensionCount = Object.keys(v1).length;
+    var origin = new nVector();
+    for (i=0; i<dimensionCount; i++) {
+        origin[dimensionalSymbols[i]] = 0;
+    }
+    return nDistSq(origin,v1);
 }

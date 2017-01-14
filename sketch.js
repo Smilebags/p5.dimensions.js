@@ -13,19 +13,19 @@ function draw() {
 }
 
 function calculate() {
-    var a = parseFloat(document.getElementById("dimIn1").value);
-    var b = parseFloat(document.getElementById("dimIn2").value);
-    var c = parseFloat(document.getElementById("dimIn3").value);
-    var d = parseFloat(document.getElementById("dimIn4").value);
-    var e = parseFloat(document.getElementById("dimIn5").value);
-    var f = parseFloat(document.getElementById("dimIn6").value);
-    var g = parseFloat(document.getElementById("dimIn7").value);
-    var h = parseFloat(document.getElementById("dimIn8").value);
+    var a = parseFloat(document.getElementById("dimIn1").value)||0;
+    var b = parseFloat(document.getElementById("dimIn2").value)||0;
+    var c = parseFloat(document.getElementById("dimIn3").value)||0;
+    var d = parseFloat(document.getElementById("dimIn4").value)||0;
+    var e = parseFloat(document.getElementById("dimIn5").value)||0;
+    var f = parseFloat(document.getElementById("dimIn6").value)||0;
+    var g = parseFloat(document.getElementById("dimIn7").value)||0;
+    var h = parseFloat(document.getElementById("dimIn8").value)||0;
     values = {
         pos1: nVector(a,b,c,d),
         pos2: nVector(e,f,g,h),
         result: ''
     };
-    values.result = nDist(values.pos1,values.pos2);
-    outputElement.innerHTML = values.result;
+    values.result = nAdd(values.pos1,values.pos2);
+    outputElement.innerHTML = JSON.stringify(values);
 }

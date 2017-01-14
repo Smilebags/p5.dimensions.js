@@ -1,78 +1,28 @@
 console.log("p5.dimensions working");
 
 p5.prototype.nDist = function (pos1, pos2) {
-    // nDist uses the number of dimensions present in the first nVector passed in as the working dimension space then calculates the nDimensional distance between the points. 
-    var dimensions = Object.keys(pos1).length;
-    var sum = 0;
-    if (pos1.x !== undefined) {
-        sum += Math.pow(Math.abs(pos1.x - pos2.x),2);
+    var positions = [];
+    a1 = Object.keys(pos1).map(function(k) { return pos1[k] }); //turns pos1's values into an array
+    a2 = Object.keys(pos2).map(function(k) { return pos2[k] }); //turns pos2's values into an array
+    positions = a1.concat(a2) //Joins arrays together
+    var total = 0;
+    for(var i=0; i < positions.length/2; i++){
+        total += Math.pow(positions[i]-positions[i+positions.length/2], 2);
     }
-    if (pos1.y !== undefined) {
-        sum += Math.pow(Math.abs(pos1.y - pos2.y),2);
-    }
-    if (pos1.z !== undefined) {
-        sum += Math.pow(Math.abs(pos1.z - pos2.z),2);
-    }
-    if (pos1.a !== undefined) {
-        sum += Math.pow(Math.abs(pos1.a - pos2.a),2);
-    }
-    if (pos1.b !== undefined) {
-        sum += Math.pow(Math.abs(pos1.b - pos2.b),2);
-    }
-    if (pos1.c !== undefined) {
-        sum += Math.pow(Math.abs(pos1.c - pos2.c),2);
-    }
-    if (pos1.d !== undefined) {
-        sum += Math.pow(Math.abs(pos1.d - pos2.d),2);
-    }
-    if (pos1.e !== undefined) {
-        sum += Math.pow(Math.abs(pos1.e - pos2.e),2);
-    }
-    if (pos1.f !== undefined) {
-        sum += Math.pow(Math.abs(pos1.f - pos2.f),2);
-    }
-    if (pos1.g !== undefined) {
-        sum += Math.pow(Math.abs(pos1.g - pos2.g),2);
-    }
-    
-
-
-   return Math.sqrt(sum);
+    return Math.sqrt(total);
 };
 
 
-p5.prototype.nVector = function(x,y,z,a,b,c,d,e,f,g) {
+p5.prototype.nVector = function() {
     //nVector creates an object with the properties x,y,z, then a to g for each parameter passed in
-    var obj = new Object;
-    if(x !== undefined) {
-        obj.x = x;
-    }
-    if(y !== undefined) {
-        obj.y = y;
-    }
-    if(z !== undefined) {
-        obj.z = z;
-    }
-    if(a !== undefined) {
-        obj.a = a;
-    }
-    if(b !== undefined) {
-        obj.b = b;
-    }
-    if(c !== undefined) {
-        obj.c = c;
-    }
-    if(d !== undefined) {
-        obj.d = d;
-    }
-    if(e !== undefined) {
-        obj.e = e;
-    }
-    if(f !== undefined) {
-        obj.f = f;
-    }
-    if(g !== undefined) {
-        obj.g = g;
+    var obj = new Object();
+    var dimensionalSymbols = ["x","y","z","a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w",
+    "xx","yy","zz","aa","bb","cc","dd","ee","ff","gg","hh","ii","jj","kk","ll","mm","nn","oo","pp","qq","rr","ss","tt","uu","vv","ww"];
+    for (var i = 0; i < arguments.length; i++){
+        if (i > dimensionalSymbols.length){
+            throw "P5JS ERROR: Too many dimensions were entered!";
+        }
+        obj[dimensionalSymbols[i]] = arguments[i];
     }
     return obj;
-};
+}

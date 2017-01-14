@@ -48,20 +48,19 @@ p5.prototype.nDot = function(v1,v2) {
     return output;
 }
 
-p5.prototype.cross = function(v1, v2){
+p5.prototype.cross = function(v1, v2){ // Returns cross of two vectors
     var output = new nVector();
-    var v1Values = Object.keys(v1).map(function(k) { return v1[k] });
-    var v2Values = Object.keys(v2).map(function(k) { return v2[k] });
-    if(v1Values.length != 3  || v2Values.length != 3){
+    var v1Values = Object.keys(v1).map(function(k) { return v1[k] }); //Getting the values of v1
+    var v2Values = Object.keys(v2).map(function(k) { return v2[k] }); //Getting the valeus of v2
+    if(v1Values.length != 3  || v2Values.length != 3){ // Checks if both vectors are 3 dimensional
         throw "P5JS ERROR: Vectors must be 3 dimensional!";
-    } else if (v1Values.length != v2Values.length){
-        throw "P5JS ERROR: Vectors must have equal amount of dimensions!";
     } else{
+        // Doing the actual calculations
         output.x = v1.y*v2.z - v1.z*v2.y;
         output.y = v1.z*v2.x - v1.x*v2.z;
         output.z = v1.x*v2.y - v1.y*v2.x;
     }
-    return output; 
+    return output; //Returns vector
 }
     
 

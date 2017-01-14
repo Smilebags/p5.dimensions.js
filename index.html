@@ -4,14 +4,44 @@
   <meta charset="UTF-8">
   <script language="javascript" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.6/p5.min.js"></script>
   <script language="javascript" type="text/javascript" src="libraries/p5.dimensions.js"></script> 
-  <script language="javascript" type="text/javascript" src="sketch.js"></script>
+  
   
 
 
 
-  <style> body {padding: 0; margin: 0;} </style>
+  <style>
+    body {
+      padding: 0;
+      margin: 0;
+    }
+    .dimension-input {
+      width:20px;
+    }
+  </style>
 </head>
 
 <body>
+  <form onsubmit="calculate(); return false;" autocomplete="off">
+    <label>First Point:</label><br />
+    <label>X</label><input type="number" class="dimension-input" id="dimIn1" value="0"/>
+    <label>Y</label><input type="number" class="dimension-input" id="dimIn2" value="0"/>
+    <label>Z</label><input type="number" class="dimension-input" id="dimIn3" value="0"/>
+    <label>A</label><input type="number" class="dimension-input" id="dimIn4" value="0"/>
+    <br />
+    <br />
+    <label>Second Point:</label><br />
+    <label>X</label><input type="number" class="dimension-input" id="dimIn5" value="0"/>
+    <label>Y</label><input type="number" class="dimension-input" id="dimIn6" value="0"/>
+    <label>Z</label><input type="number" class="dimension-input" id="dimIn7" value="0"/>
+    <label>A</label><input type="number" class="dimension-input" id="dimIn8" value="0"/>
+    <input type="submit" value="Calculate Distance"/>
+    <br />
+    <br />
+    <label>Distance:</label><br /><span id="distanceLabel">0.00</span>
+  </form>
+
+
+
+  <script language="javascript" type="text/javascript" src="sketch.js"></script>
 </body>
 </html>

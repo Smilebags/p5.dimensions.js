@@ -38,8 +38,18 @@ p5.prototype.nVector = function() {
 
 }
 
-p5.prototype.nDotProduct = function(v1,v2) {
+p5.prototype.nDot = function(v1,v2) {
     //implement dot product - which is equal to v1.x * v2.x + v1.y * v2.y ...
+    var output = 0;
+    var dimensionCount = Object.keys(v1).length;
+    for (i=0; i<dimensionCount; i++) {
+        output += v1[dimensionalSymbols[i]] * v2[dimensionalSymbols[i]];
+    }
+    return output;
+}
+
+p5.prototype.nCross = function(v1,v2) {
+    //implement cross product - which is very, very confusing...
 }
     
 

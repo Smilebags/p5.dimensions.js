@@ -26,7 +26,7 @@ function calculate() {
         pos2: nVector(e,f,g,h),
         result: ''
     };
-    // values.result = nDistSq(values.pos1,values.pos2);
-    values.result = nMagSq(values.pos1);
+    values.result = nDot(values.pos1,values.pos2);
+    // values.result = nMagSq(values.pos1);
     outputElement.innerHTML = JSON.stringify(values);
 }

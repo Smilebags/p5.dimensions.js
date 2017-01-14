@@ -26,8 +26,26 @@ p5.prototype.nVector = function() {
     for (var i = 0; i < arguments.length; i++){
         if (i > dimensionalSymbols.length){
             throw "P5JS ERROR: Too many dimensions were entered!";
+        } else {
+            obj[dimensionalSymbols[i]] = arguments[i];
         }
-        obj[dimensionalSymbols[i]] = arguments[i];
     }
+    
+    obj.add = function(vector){ //Adds two multidimensional vectors together
+      var usedLetters = [];
+      for(var i = 0; i < Object.keys(obj).length; i++){
+        if (obj[Object.keys(obj)[i]] && vector[Object.keys(obj)[i]] && Object.keys(obj)[i] != "add" && Object.keys(obj)[i] != "add"){
+          obj[Object.keys(obj)[i]] += vector[Object.keys(obj)[i]];
+          usedLetters.push(Object.keys(obj)[i]);
+        } 
+      }
+      for(var i = 0; i < Object.keys(vector).length; i++){
+        if (!usedLetters.includes(Object.keys(vector)[i]) && Object.keys(vector)[i] != "add"){
+          obj[Object.keys(vector)[i]] = vector[Object.keys(vector)[i]];
+        }
+      }
+      return obj;
+    }
+    
     return obj;
 }

@@ -26,6 +26,7 @@ function calculate() {
         pos2: nVector(e,f,g,h),
         result: ''
     };
-    values.result = nAdd(values.pos1,values.pos2);
+    // values.result = nSub(values.pos1,values.pos2);
+    values.result = nMag(values.pos1);
     outputElement.innerHTML = JSON.stringify(values);
 }

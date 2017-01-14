@@ -51,11 +51,25 @@ p5.prototype.nAdd = function(v1,v2) {
 }
 
 p5.prototype.nSub = function(v1,v2) {
-    //implement add of nVectors
+    if (arguments.length == 1) {
+        return nSub(this,v1);
+    } else {
+    //implement subtraction of nVectors
     var output = new nVector();
     var dimensionCount = Object.keys(v1).length;
     for (i=0; i<dimensionCount; i++) {
-        output[dimensionalSymbols[i]] = v1[dimensionalSymbols[i]] + v2[dimensionalSymbols[i]];
+        output[dimensionalSymbols[i]] = v1[dimensionalSymbols[i]] - v2[dimensionalSymbols[i]];
     }
     return output;
+    }
+}
+
+p5.prototype.nMag = function(v1) {
+    //implement magnitude calculation of nVectors
+    var dimensionCount = Object.keys(v1).length;
+    var origin = new nVector();
+    for (i=0; i<dimensionCount; i++) {
+        origin[dimensionalSymbols[i]] = 0;
+    }
+    return nDist(origin,v1);
 }

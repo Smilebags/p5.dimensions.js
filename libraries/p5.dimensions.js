@@ -94,6 +94,10 @@ p5.prototype.nNormalize = function(v1){
   return obj;
 }
 
+p5.prototype.nSetMag = function(v1, n){
+  return nNormalize(v1) * n;
+}
+
 p5.prototype.nAdd = function(v1,v2) {
     //implement add of nVectors
     var output = new nVector();

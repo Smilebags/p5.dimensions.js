@@ -26,7 +26,7 @@ function calculate() {
         pos2: nVector(e,f,g,h),
         result: ''
     };
-    values.result = nDot(values.pos1,values.pos2);
+    values.result = nLerp(values.pos1,values.pos2, 0.1);
     // values.result = nMagSq(values.pos1);
     outputElement.innerHTML = JSON.stringify(values);
 }

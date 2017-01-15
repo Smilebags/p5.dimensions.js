@@ -159,3 +159,21 @@ p5.prototype.nMagSq = function(v1) {
     }
     return nDistSq(origin,v1);
 }
+
+p5.prototype.nLerp = function(v1,v2,percentage) {
+    //linear interpolation between two vectors by percentage amount
+    switch (percentage) {
+        case (percentage <= 0):
+            percentage = 0;
+            break;
+        case (percentage >= 1):
+            percentage = 1;
+            break;
+    }
+    var dimensionCount = Object.keys(v1).length;
+    var output = new nVector();
+    for (i=0; i<dimensionCount; i++) {
+        output[dimensionalSymbols[i]] = v1[dimensionalSymbols[i]] + ((v2[dimensionalSymbols[i]] - v1[dimensionalSymbols[i]]) * percentage);
+    }
+    return output;
+}

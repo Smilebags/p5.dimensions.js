@@ -110,6 +110,14 @@ p5.prototype.nLimit = function(v1, n){
   return output;
 }
 
+p5.prototype.nArray = function(v1){
+    var output = [];
+    for (var i = 0; i < Object.keys(v1).length; i++){
+    output[i] = v1[dimensionalSymbols[i]];
+    }
+    return output;
+}
+
 p5.prototype.nAdd = function(v1,v2) {
     //implement add of nVectors
     var output = new nVector();

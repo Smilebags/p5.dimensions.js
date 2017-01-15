@@ -87,26 +87,27 @@ p5.prototype.nEqual = function(v1,v2){ //Checks if vectors are equal
 }
 
 p5.prototype.nNormalize = function(v1){
-  var obj = new Object();
+  var obj = new nVector();
   for (var i = 0; i < Object.keys(v1).length; i++){
-    obj[Object.keys(v1)[i]] = v1[Object.keys(v1)[i]]/nMag(v1);
+    obj[dimensionalSymbols[i]] = v1[dimensionalSymbols[i]]/nMag(v1);
   }
   return obj;
 }
 
 p5.prototype.nSetMag = function(v1, n){
-    v1 = nNormalize(v1);
-
+    var output = nNormalize(v1);
+    for (var i = 0; i < Object.keys(v1).length; i++){
+    output[dimensionalSymbols[i]] = output[dimensionalSymbols[i]] * n;
+    }
+    return output;
 }
 
 p5.prototype.nLimit = function(v1, n){
+    var output = v1;
     if (nMagSq(v1) > n * n) {
-        v1 = nSetMag(v1, n);
+        output = nSetMag(v1, n);
     }
-    for (var i = 0; i < Object.keys(v1).length; i++){
-        v1[i] = v1[i] * n;
-    }
-  return v1;
+  return output;
 }
 
 p5.prototype.nAdd = function(v1,v2) {

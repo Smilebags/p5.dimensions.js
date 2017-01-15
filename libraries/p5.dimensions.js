@@ -78,6 +78,24 @@ p5.prototype.nSub = function(v1,v2) {
     }
 }
 
+p5.prototype.nMul = function(v, n){ //Multiplies vector's values
+    var output = new nVector();
+    values = Object.keys(v).map(function(k) { return v[k] });
+    for (var i = 0; i < values.length; i++){
+        output[Object.keys(v)[i]] = values[i]*n;
+    }
+    return output; //Returns vector
+}
+
+p5.prototype.nDiv = function(v, n){ //Divides vector's values
+    var output = new nVector();
+    values = Object.keys(v).map(function(k) { return v[k] });
+    for (var i = 0; i < values.length; i++){
+        output[Object.keys(v)[i]] = values[i]/n;
+    }
+    return output;
+}
+
 p5.prototype.nMag = function(v1) {
     //implement magnitude calculation of nVectors
     var dimensionCount = Object.keys(v1).length;

@@ -95,7 +95,18 @@ p5.prototype.nNormalize = function(v1){
 }
 
 p5.prototype.nSetMag = function(v1, n){
-  return nNormalize(v1) * n;
+    v1 = nNormalize(v1);
+
+}
+
+p5.prototype.nLimit = function(v1, n){
+    if (nMagSq(v1) > n * n) {
+        v1 = nSetMag(v1, n);
+    }
+    for (var i = 0; i < Object.keys(v1).length; i++){
+        v1[i] = v1[i] * n;
+    }
+  return v1;
 }
 
 p5.prototype.nAdd = function(v1,v2) {

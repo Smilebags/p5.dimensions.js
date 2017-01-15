@@ -7,7 +7,8 @@ function setup() {
     var dotSize = 0;
 
     fill(0,0,255);
-    stroke(0,0,255); 
+    noStroke();
+    colorMode(HSB, 1000);
 }
 
 function draw() {
@@ -15,8 +16,9 @@ function draw() {
     mousePos.x = mouseX;
     mousePos.y = mouseY;
     distance = nDist(mousePos,dotPos);
+    fill(700-distance/2,1000,800);
     dotSize = distance/10;
-    dotPos = nLerp(dotPos, mousePos, 0.01 + 0.00002*distance);
+    dotPos = nLerp(dotPos, mousePos, 0.05);
     if(mouseIsPressed){
         ellipse(dotPos.x,dotPos.y,dotSize,dotSize);
     }

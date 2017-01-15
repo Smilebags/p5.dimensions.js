@@ -38,6 +38,14 @@ p5.prototype.nVector = function() {
 
 }
 
+p5.prototype.nRandomVector = function(d, min, max){
+  var obj = new Object();
+  for (var i = 0; i < d; i++){
+    obj[dimensionalSymbols[i]] = Math.round(Math.random() * (max - min) + min);
+  }
+  return obj;
+}
+
 p5.prototype.nDot = function(v1,v2) {
     //implement dot product - which is equal to v1.x * v2.x + v1.y * v2.y ...
     var output = 0;

@@ -48,7 +48,7 @@ p5.prototype.nDot = function(v1,v2) {
     return output;
 }
 
-p5.prototype.cross = function(v1, v2){ // Returns cross of two vectors
+p5.prototype.nCross = function(v1, v2){ // Returns cross of two vectors
     var output = new nVector();
     var v1Values = Object.keys(v1).map(function(k) { return v1[k] }); //Getting the values of v1
     var v2Values = Object.keys(v2).map(function(k) { return v2[k] }); //Getting the valeus of v2
@@ -63,7 +63,20 @@ p5.prototype.cross = function(v1, v2){ // Returns cross of two vectors
     return output; //Returns vector
 }
     
-
+p5.prototype.nEqual = function(v1,v2){ //Checks if vectors are equal
+  var values1 = Object.keys(v1).map(function(k) { return v1[k] });
+  var values2 = Object.keys(v2).map(function(k) { return v2[k] });
+  if (values1.length != values2.length){
+    return false;
+  } else{
+    for (var i = 0; i < values1.length; i++){
+      if(values1[i] != values2[i]){
+        return false;
+      }
+    }
+    return true;
+  }
+}
 
 p5.prototype.nAdd = function(v1,v2) {
     //implement add of nVectors

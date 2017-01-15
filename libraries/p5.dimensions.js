@@ -13,8 +13,8 @@ p5.prototype.nDistSq = function (v1, v2) {
         return nDistSq(this,v1);
     } else {
         var positions = [];
-        a1 = Object.keys(v1).map(function(k) { return v1[k] }); //turns v1's values into an array
-        a2 = Object.keys(v2).map(function(k) { return v2[k] }); //turns v2's values into an array
+        var a1 = Object.keys(v1).map(function(k) { return v1[k] }); //turns v1's values into an array
+        var a2 = Object.keys(v2).map(function(k) { return v2[k] }); //turns v2's values into an array
         positions = a1.concat(a2); //Joins arrays together
         var total = 0;
         for(var i=0; i < positions.length/2; i++){
@@ -84,6 +84,14 @@ p5.prototype.nEqual = function(v1,v2){ //Checks if vectors are equal
     }
     return true;
   }
+}
+
+p5.prototype.nNormalize = function(v1){
+  var obj = new Object();
+  for (var i = 0; i < Object.keys(v1).length; i++){
+    obj[Object.keys(v1)[i]] = v1[Object.keys(v1)[i]]/nMag(v1);
+  }
+  return obj;
 }
 
 p5.prototype.nAdd = function(v1,v2) {

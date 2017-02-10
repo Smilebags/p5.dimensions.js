@@ -9,36 +9,65 @@
         body {
             padding: 0;
             margin: 0;
+            background-color: #f8f8f8;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
         .dimension-input {
             width: 20px;
         }
+        
+        .content {
+            max-width: 600px;
+            margin: auto;
+            display: block;
+        }
+        
+        p,
+        h1 {
+            color: #333333;
+        }
+        
+        h1 {
+            text-align: center;
+        }
     </style>
 </head>
 
 <body>
-    <form onsubmit="calculate(); return false;" autocomplete="off">
-        <label>First Point:</label><br />
-        <label>X</label><input type="number" class="dimension-input" id="dimIn1" value="0" />
-        <label>Y</label><input type="number" class="dimension-input" id="dimIn2" value="0" />
-        <label>Z</label><input type="number" class="dimension-input" id="dimIn3" value="0" />
-        <label>A</label><input type="number" class="dimension-input" id="dimIn4" value="0" />
-        <br />
-        <br />
-        <label>Second Point:</label><br />
-        <label>X</label><input type="number" class="dimension-input" id="dimIn5" value="0" />
-        <label>Y</label><input type="number" class="dimension-input" id="dimIn6" value="0" />
-        <label>Z</label><input type="number" class="dimension-input" id="dimIn7" value="0" />
-        <label>A</label><input type="number" class="dimension-input" id="dimIn8" value="0" />
-        <!--<input type="submit" value="Calculate Distance"/> -->
-        <br />
-        <br />
-        <label>Distance:</label><br /><span id="distanceLabel">0.00</span>
-    </form>
+    <div class="content">
+        <h1>Welcome, Dimensional Traveller</h1>
+        <p>This addon to p5.js is intended to extend the vector functions to any number of dimensions. The example below shows the addition of two points in 4 dimensions, but you're not limited to 4, you can go as many as you like! <sub>As long as it is less than 52.</sub>Try
+            changing the numbers and seeing the output.</p>
+        <form onsubmit="calculate(); return false;" autocomplete="off">
+            <label>First Point:</label><br />
+            <label>X</label><input type="number" class="dimension-input" id="dimIn1" value="3" />
+            <label>Y</label><input type="number" class="dimension-input" id="dimIn2" value="1" />
+            <label>Z</label><input type="number" class="dimension-input" id="dimIn3" value="4" />
+            <label>A</label><input type="number" class="dimension-input" id="dimIn4" value="1" />
+            <br />
+            <br />
+            <label>Second Point:</label><br />
+            <label>X</label><input type="number" class="dimension-input" id="dimIn5" value="5" />
+            <label>Y</label><input type="number" class="dimension-input" id="dimIn6" value="9" />
+            <label>Z</label><input type="number" class="dimension-input" id="dimIn7" value="2" />
+            <label>A</label><input type="number" class="dimension-input" id="dimIn8" value="6" />
+            <!--<input type="submit" value="Calculate Distance"/> -->
+            <br />
+            <br />
+            <label>Distance:</label>
+            <div id="output">
+                <span id="OutX">0.00</span>
+                <span id="OutY">0.00</span>
+                <span id="OutZ">0.00</span>
+                <span id="OutA">0.00</span>
+            </div>
+        </form>
+        <p>The function used to do the calculations above looks like this: <pre>result = nAdd(pos1, pos2);</pre> And the vectors can be created like this:
+            <pre>var pos1 = nVector(3, 1, 4, 1);</pre> Currently I believe all the standard vector functions in p5 can be used in the same way using this addon, but if you find a bug please let us know at <a href="https://github.com/Smilebags/p5.dimensions.js/issues">our GitHub repo</a>.</p>
 
 
-
+    </div>
     <script language="javascript" type="text/javascript" src="sketch.js"></script>
 </body>
 

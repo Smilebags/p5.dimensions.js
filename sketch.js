@@ -1,6 +1,10 @@
 var distance;
 var values;
-var outputElement = document.getElementById("distanceLabel");
+var outputElement = document.getElementById("output");
+var outX = document.getElementById("OutX");
+var outY = document.getElementById("OutY");
+var outZ = document.getElementById("OutZ");
+var outA = document.getElementById("OutA");
 
 function setup() {
     calculate();
@@ -24,7 +28,13 @@ function calculate() {
         pos2: nVector(e, f, g, h),
         result: ''
     };
-    values.result = nLimit(values.pos1, 2);
-    // values.result = nMagSq(values.pos1);
-    outputElement.innerHTML = JSON.stringify(values);
+    values.result = nAdd(values.pos1, values.pos2);
+    renderOutput(values.result);
 }
+
+function renderOutput(v1) {
+    outX.innerHTML = v1.x;
+    outY.innerHTML = v1.y;
+    outZ.innerHTML = v1.z;
+    outA.innerHTML = v1.a;
+};

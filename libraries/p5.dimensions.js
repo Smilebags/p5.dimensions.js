@@ -153,17 +153,14 @@
     }
 
     p5.prototype.nSub = function(v1, v2) {
-        if (arguments.length == 1) {
-            return nSub(this, v1);
-        } else {
-            //implement subtraction of nVectors
-            var output = new nVector();
-            var dimensionCount = getVectorValues(v1).length;
-            for (i = 0; i < dimensionCount; i++) {
-                output[dimensionalSymbols[i]] = v1[dimensionalSymbols[i]] - v2[dimensionalSymbols[i]];
-            }
-            return generateMethods(output);
+
+        //implement subtraction of nVectors
+        var output = new nVector();
+        var dimensionCount = getVectorValues(v1).length;
+        for (i = 0; i < dimensionCount; i++) {
+            output[dimensionalSymbols[i]] = v1[dimensionalSymbols[i]] - v2[dimensionalSymbols[i]];
         }
+        return generateMethods(output);
     }
 
     p5.prototype.nMul = function(v, n) { //Multiplies vector's values

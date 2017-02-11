@@ -13,6 +13,10 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
+        body {
+            padding: 16px;
+        }
+        
         .dimension-input {
             width: 20px;
         }
@@ -28,8 +32,19 @@
             color: #333333;
         }
         
+        p {
+            line-height: 2em;
+        }
+        
         h1 {
             text-align: center;
+        }
+        
+        .function-summary {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            margin-left: 1em;
         }
         
         .function-summary li {
@@ -50,12 +65,41 @@
             color: rgba(0, 0, 0, 0.8);
         }
         
-        .function-summary li:hover span {
+        .function-summary li pre:hover+span {
             display: inline-block;
         }
         
         .function-summary li pre {
             display: inline-block;
+        }
+        
+        input {
+            margin-left: 0.5em;
+            margin-right: 1em;
+        }
+        
+        #output span {
+            margin-right: 1.6em;
+        }
+        
+        #output span:after {
+            content: ",";
+        }
+        
+        #OutX:before {
+            content: "X: ";
+        }
+        
+        #OutY:before {
+            content: "Y: ";
+        }
+        
+        #OutZ:before {
+            content: "Z: ";
+        }
+        
+        #OutA:before {
+            content: "A: ";
         }
     </style>
 </head>
@@ -67,17 +111,17 @@
             changing the numbers and seeing the output.</p>
         <form onsubmit="calculate(); return false;" autocomplete="off">
             <label>First Point:</label><br />
-            <label>X</label><input type="number" class="dimension-input" id="dimIn1" value="3" />
-            <label>Y</label><input type="number" class="dimension-input" id="dimIn2" value="1" />
-            <label>Z</label><input type="number" class="dimension-input" id="dimIn3" value="4" />
-            <label>A</label><input type="number" class="dimension-input" id="dimIn4" value="1" />
+            <label>X:</label><input type="number" class="dimension-input" id="dimIn1" value="3" />
+            <label>Y:</label><input type="number" class="dimension-input" id="dimIn2" value="1" />
+            <label>Z:</label><input type="number" class="dimension-input" id="dimIn3" value="4" />
+            <label>A:</label><input type="number" class="dimension-input" id="dimIn4" value="1" />
             <br />
             <br />
             <label>Second Point:</label><br />
-            <label>X</label><input type="number" class="dimension-input" id="dimIn5" value="5" />
-            <label>Y</label><input type="number" class="dimension-input" id="dimIn6" value="9" />
-            <label>Z</label><input type="number" class="dimension-input" id="dimIn7" value="2" />
-            <label>A</label><input type="number" class="dimension-input" id="dimIn8" value="6" />
+            <label>X:</label><input type="number" class="dimension-input" id="dimIn5" value="5" />
+            <label>Y:</label><input type="number" class="dimension-input" id="dimIn6" value="9" />
+            <label>Z:</label><input type="number" class="dimension-input" id="dimIn7" value="2" />
+            <label>A:</label><input type="number" class="dimension-input" id="dimIn8" value="6" />
             <!--<input type="submit" value="Calculate Distance"/> -->
             <br />
             <br />
@@ -89,28 +133,28 @@
                 <span id="OutA">0.00</span>
             </div>
         </form>
-        <p>The function used to do the calculations above looks like this: <pre>result = nAdd(pos1, pos2);</pre> And the vectors can be created like this:
-            <pre>var pos1 = nVector(3, 1, 4, 1);</pre> Currently I believe all the standard vector functions in p5 can be used in the same way using this addon, but if you find a bug please let us know at <a href="https://github.com/Smilebags/p5.dimensions.js/issues">our GitHub repo</a>.</p>
-        <p>Some of the functions in this addon are as follows:
-            <ul class="function-summary">
-                <li><pre>nDist(v1, v2)</pre><span>Returns the euclidean distance between the two vectors.</span></li>
-                <li><pre>nDistSq(v1, v2)</pre><span>Returns the distance squared between the points; used where speed is important and comparing distance is all that is needed.</span></li>
-                <li><pre>nDot(v1, v2)</pre><span>Returns the dot product of the two vectors.</span></li>
-                <li><pre>nLerp(v1, v2, percent)</pre><span>Blends between two vectors by the percentage given.</span></li>
-                <li><pre>nAdd(v1, v2)</pre><span>Returns the sum of the two vectors.</span></li>
-                <li><pre>nSub(v1, v2)</pre><span>Returns the first vector minus the second vector.</span></li>
-                <li><pre>nMul(v1, value)</pre><span>Multiplies the vector's magnitude by the value.</span></li>
-                <li><pre>nDiv(v1, value)</pre><span>Divides the vector 's magnitude by the value.</span></li>
-                <li><pre>nSetMag(v1, magnitude)</pre><span>Returns the vector with the specified magnitude.</span></li>
-                <li><pre>nCross(v1, v2)</pre><span>Returns the cross product of 3 dimensional vectors.</span></li>
-                <li><pre>nEqual(v1, v2)</pre><span>Returns true if the vectors are identical.</span></li>
-                <li><pre>nNormalize(v1)</pre><span>Returns the vector with a magnitude of 1.</span></li>
-                <li><pre>nMag(v1)</pre><span>Returns the magnitude of the vector.</span></li>
-                <li><pre>nMagSq(v1)</pre><span>Returns the magnitude squared of the vector, for use when comparing the magnitude of two vectors.</span></li>
-            </ul>
-        </p>
-
-
+        <p>The function used to do the calculations above looks like this: </p>
+        <pre>result = nAdd(pos1, pos2);</pre>
+        <p>And the vectors can be created like this:</p>
+        <pre>var pos1 = nVector(3, 1, 4, 1);</pre>
+        <p>Currently I believe all the standard vector functions in p5 can be used in the same way using this addon, but if you find a bug please let us know at <a href="https://github.com/Smilebags/p5.dimensions.js/issues">our GitHub repo</a>.</p>
+        <p>Some of the functions in this addon are as follows:</p>
+        <ul class="function-summary">
+            <li><pre>nDist(v1, v2)</pre><span>Returns the euclidean distance between the two vectors.</span></li>
+            <li><pre>nDistSq(v1, v2)</pre><span>Returns the distance squared between the points; used where speed is important and comparing distance is all that is needed.</span></li>
+            <li><pre>nDot(v1, v2)</pre><span>Returns the dot product of the two vectors.</span></li>
+            <li><pre>nLerp(v1, v2, percent)</pre><span>Blends between two vectors by the percentage given.</span></li>
+            <li><pre>nAdd(v1, v2)</pre><span>Returns the sum of the two vectors.</span></li>
+            <li><pre>nSub(v1, v2)</pre><span>Returns the first vector minus the second vector.</span></li>
+            <li><pre>nMul(v1, value)</pre><span>Multiplies the vector's magnitude by the value.</span></li>
+            <li><pre>nDiv(v1, value)</pre><span>Divides the vector 's magnitude by the value.</span></li>
+            <li><pre>nSetMag(v1, magnitude)</pre><span>Returns the vector with the specified magnitude.</span></li>
+            <li><pre>nCross(v1, v2)</pre><span>Returns the cross product of 3 dimensional vectors.</span></li>
+            <li><pre>nEqual(v1, v2)</pre><span>Returns true if the vectors are identical.</span></li>
+            <li><pre>nNormalize(v1)</pre><span>Returns the vector with a magnitude of 1.</span></li>
+            <li><pre>nMag(v1)</pre><span>Returns the magnitude of the vector.</span></li>
+            <li><pre>nMagSq(v1)</pre><span>Returns the magnitude squared of the vector, for use when comparing the magnitude of two vectors.</span></li>
+        </ul>
     </div>
     <script language="javascript" type="text/javascript" src="sketch.js"></script>
 </body>

@@ -8,6 +8,7 @@ var outA = document.getElementById("OutA");
 
 function setup() {
     calculate();
+    noCanvas();
 }
 
 function draw() {

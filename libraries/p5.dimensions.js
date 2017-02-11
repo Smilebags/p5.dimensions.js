@@ -151,7 +151,6 @@
         }
         return generateMethods(output);
     }
-
     p5.prototype.nSub = function(v1, v2) {
 
         //implement subtraction of nVectors

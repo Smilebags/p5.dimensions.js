@@ -29,7 +29,10 @@
         }
         
         p,
-        h1 {
+        h1,
+        label,
+        input,
+        span {
             color: rgba(0, 0, 0, 0.7);
             font-weight: 100;
         }
@@ -46,6 +49,12 @@
             font-size: 110%;
             color: rgba(0, 0, 0, 0.5);
             font-weight: 100;
+        }
+        
+        input {
+            border: 0;
+            padding: 4px;
+            text-align: center;
         }
         
         .function-summary {
@@ -88,14 +97,24 @@
         input {
             margin-left: 0.5em;
             margin-right: 1em;
+            border-radius: 4px;
+            box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.2) inset;
+            background-color: white;
+            display: inline-block;
+        }
+        
+        label {
+            margin: 0.5em 0;
+            display: inline-block;
         }
         
         #output span {
-            margin-right: 1.6em;
-        }
-        
-        #output span:after {
-            content: ",";
+            margin-top: 0.5em;
+            margin-right: 0.5em;
+            padding: 4px;
+            border-radius: 4px;
+            box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.2);
+            background-color: white;
         }
         
         #OutX:before {
@@ -112,6 +131,10 @@
         
         #OutA:before {
             content: "A: ";
+        }
+        
+        #output span#OutA:after {
+            content: "";
         }
         
         footer {

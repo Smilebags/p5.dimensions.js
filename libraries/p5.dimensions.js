@@ -51,7 +51,7 @@
 
     p5.prototype.nVector = function() {
         //nVector is a constructor function which creates an object with x,y,z, then alphabetically named properties.
-        var obj = new Object();
+        var obj = {}
         for (var i = 0; i < arguments.length; i++) {
             if (i > dimensionalSymbols.length) {
                 throw "P5JS ERROR: Too many dimensions were entered!";
@@ -63,7 +63,7 @@
     }
 
     p5.prototype.nRandomVector = function(d, min, max) {
-        var obj = new Object();
+        var obj = {}
         for (var i = 0; i < d; i++) {
             obj[dimensionalSymbols[i]] = Math.round(Math.random() * (max - min) + min);
         }

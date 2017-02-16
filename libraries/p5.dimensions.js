@@ -51,7 +51,7 @@
 
     p5.prototype.nVector = function() {
         //nVector is a constructor function which creates an object with x,y,z, then alphabetically named properties.
-        var obj = {}
+        var obj = {};
         for (var i = 0; i < arguments.length; i++) {
             if (i > dimensionalSymbols.length) {
                 throw "P5JS ERROR: Too many dimensions were entered!";
@@ -63,7 +63,7 @@
     }
 
     p5.prototype.nRandomVector = function(d, min, max) {
-        var obj = {}
+        var obj = {};
         for (var i = 0; i < d; i++) {
             obj[dimensionalSymbols[i]] = Math.round(Math.random() * (max - min) + min);
         }
@@ -216,5 +216,26 @@
             output[dimensionalSymbols[i]] = v1[dimensionalSymbols[i]] + ((v2[dimensionalSymbols[i]] - v1[dimensionalSymbols[i]]) * percentage);
         }
         return generateMethods(output);
+    }
+
+    p5.prototype.nObject = function(objectData) {
+        //nObject is a constructor function for an object with nDimensional verticies, edges and faces.
+        // objectData must be an object with properties as follows: dimension: integer, vertices: nVector, edges, array[2], faces: array[3]
+        var obj = {};
+        if (arguments.length == 1) {
+            if (objectData.dimension > dimensionalSymbols.length) {
+                throw "P5JS ERROR: Dimension of object is too high!";
+            }
+            obj.dimension = objectData.dimension;
+            obj.vertices = objectData.vertices;
+            obj.edges = objectData.edges;
+            obj.faces = objectData.faces;
+        } else if (arguments.length == 4) {
+            obj.dimension = arguments[0];
+            obj.vertices = arguments[1];
+            obj.edges = arguments[2];
+            obj.faces = arguments[3];
+        }
+        return obj;
     }
 })();

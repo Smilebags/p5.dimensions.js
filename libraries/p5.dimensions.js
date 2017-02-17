@@ -238,4 +238,17 @@
         }
         return obj;
     }
+    
+    p5.prototype.nShift = function(object, forces){
+      if (forces.length != object.dimension){
+        throw "P5JS ERROR: You have too many dimensional movements!"
+      } else {
+      	for (var n = 0; n < object.vertices.length; n++){
+            for (var i = 0; i < forces.length; i++){
+                object.vertices[n][dimensionalSymbols[i]] += forces[i]
+            }
+        }
+      }
+      return object;
+    }
 })();

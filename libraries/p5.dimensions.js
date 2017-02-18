@@ -17,7 +17,7 @@
         vector.nMul = function (n) { return nMul(this, n); };
         vector.nDiv = function (n) { return nDiv(this, n); };
         vector.nSetMag = function (n) { return nSetMag(this, n); };
-        vector.nCross = function (v2) { return nCross(this, v2); };
+        // vector.nCross = function(v2) { return nCross(this, v2) }
         vector.nEqual = function (v2) { return nEqual(this, v2); };
         vector.nNormalize = function () { return nNormalize(this); };
         vector.nMag = function () { return nMag(this); };
@@ -67,21 +67,20 @@
         }
         return output;
     };
-    p5.prototype.nCross = function (v1, v2) {
-        var output;
-        var v1Values = getVectorValues(v1);
-        var v2Values = getVectorValues(v2);
-        if (v1Values.length != 3 || v2Values.length != 3) {
-            throw "P5JS ERROR: Vectors must be 3 dimensional!";
-        }
-        else {
-            // Doing the actual calculations
-            output.x = v1.y * v2.z - v1.z * v2.y;
-            output.y = v1.z * v2.x - v1.x * v2.z;
-            output.z = v1.x * v2.y - v1.y * v2.x;
-        }
-        return generateMethods(output); //Returns vector
-    };
+    // p5.prototype.nCross = function(v1, v2) { // Returns cross of two vectors
+    //     var output:nVector;
+    //     var v1Values = getVectorValues(v1)
+    //     var v2Values = getVectorValues(v2)
+    //     if (v1Values.length != 3 || v2Values.length != 3) { // Checks if both vectors are 3 dimensional
+    //         throw "P5JS ERROR: Vectors must be 3 dimensional!";
+    //     } else {
+    //         // Doing the actual calculations
+    //         output.x = v1.y * v2.z - v1.z * v2.y;
+    //         output.y = v1.z * v2.x - v1.x * v2.z;
+    //         output.z = v1.x * v2.y - v1.y * v2.x;
+    //     }
+    //     return generateMethods(output); //Returns vector
+    // }
     p5.prototype.nEqual = function (v1, v2) {
         var values1 = getVectorValues(v1);
         var values2 = getVectorValues(v2);

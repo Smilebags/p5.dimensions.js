@@ -1,14 +1,12 @@
-
-
 (function() {
-    var dimensionalSymbols: string[] = ["x", "y", "z", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w",
+    var dimensionalSymbols = ["x", "y", "z", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w",
         "xx", "yy", "zz", "aa", "bb", "cc", "dd", "ee", "ff", "gg", "hh", "ii", "jj", "kk", "ll", "mm", "nn", "oo", "pp", "qq", "rr", "ss", "tt", "uu", "vv", "ww"
     ];
 
-    function getVectorValues(vector: nVector) {
-        var output: string[] = Object.keys(vector).filter(function(i) { return dimensionalSymbols.includes(i) }) //filters values
+    function getVectorValues(vector) {
+        var output = Object.keys(vector).filter(function(i) { return dimensionalSymbols.includes(i) }) //filters values
         output = output.map(function(v) { return vector[v] }) //turns v1's values into an array
-        return output;
+        return output
     }
 
     function generateMethods(vector) {
@@ -64,7 +62,7 @@
 
     }
 
-    p5.prototype.nRandomVector = function(d: number, min: number, max: number) {
+    p5.prototype.nRandomVector = function(d, min, max) {
         var obj = {};
         for (var i = 0; i < d; i++) {
             obj[dimensionalSymbols[i]] = Math.round(Math.random() * (max - min) + min);
@@ -76,7 +74,7 @@
         //implement dot product - which is equal to v1.x * v2.x + v1.y * v2.y ...
         var output = 0;
         var dimensionCount = getVectorValues(v1).length
-        for (var i = 0; i < dimensionCount; i++) {
+        for (i = 0; i < dimensionCount; i++) {
             output += v1[dimensionalSymbols[i]] * v2[dimensionalSymbols[i]];
         }
         return output;
@@ -99,7 +97,7 @@
 
     p5.prototype.nEqual = function(v1, v2) { //Checks if vectors are equal
         var values1 = getVectorValues(v1)
-        var values2 = getVectorValues(v2)
+        var values2 = getVectorValus(v2)
         if (values1.length != values2.length) {
             return false;
         } else {
@@ -148,7 +146,7 @@
         //implement add of nVectors
         var output = new nVector();
         var dimensionCount = getVectorValues(v1).length;
-        for (var i = 0; i < dimensionCount; i++) {
+        for (i = 0; i < dimensionCount; i++) {
             output[dimensionalSymbols[i]] = v1[dimensionalSymbols[i]] + v2[dimensionalSymbols[i]];
         }
         return generateMethods(output);
@@ -158,7 +156,7 @@
         //implement subtraction of nVectors
         var output = new nVector();
         var dimensionCount = getVectorValues(v1).length;
-        for (var i = 0; i < dimensionCount; i++) {
+        for (i = 0; i < dimensionCount; i++) {
             output[dimensionalSymbols[i]] = v1[dimensionalSymbols[i]] - v2[dimensionalSymbols[i]];
         }
         return generateMethods(output);
@@ -166,16 +164,16 @@
 
     p5.prototype.nMul = function(v, n) { //Multiplies vector's values
         var output = new nVector();
-        var values = getVectorValues(v);
+        values = getVectorValues(v);
         for (var i = 0; i < values.length; i++) {
             output[dimensionalSymbols[i]] = values[i] * n;
         }
         return generateMethods(output); //Returns vector
     }
 
-    p5.prototype.nDiv = function(v: nVector, n: number) { //Divides vector's values
+    p5.prototype.nDiv = function(v, n) { //Divides vector's values
         var output = new nVector();
-        var values = getVectorValues(v);
+        values = getVectorValues(v);
         for (var i = 0; i < values.length; i++) {
             output[dimensionalSymbols[i]] = values[i] / n;
         }
@@ -186,7 +184,7 @@
         //implement magnitude calculation of nVectors
         var dimensionCount = getVectorValues(v1).length;
         var origin = new nVector();
-        for (var i = 0; i < dimensionCount; i++) {
+        for (i = 0; i < dimensionCount; i++) {
             origin[dimensionalSymbols[i]] = 0;
         }
         return nDist(origin, v1);
@@ -196,7 +194,7 @@
         //implement magnitude calculation of nVectors
         var dimensionCount = getVectorValues(v1).length;
         var origin = new nVector();
-        for (var i = 0; i < dimensionCount; i++) {
+        for (i = 0; i < dimensionCount; i++) {
             origin[dimensionalSymbols[i]] = 0;
         }
         return nDistSq(origin, v1);
@@ -214,28 +212,20 @@
         }
         var dimensionCount = getVectorValues(v1).length;
         var output = new nVector();
-        for (var i = 0; i < dimensionCount; i++) {
+        for (i = 0; i < dimensionCount; i++) {
             output[dimensionalSymbols[i]] = v1[dimensionalSymbols[i]] + ((v2[dimensionalSymbols[i]] - v1[dimensionalSymbols[i]]) * percentage);
         }
         return generateMethods(output);
     }
 
-    interface nObject {
-        dimension: number;
-        vertices: nVector[];
-        edges: [[number,number]];
-        faces: [[number,number,number]]
-    }
-    p5.prototype.nObject = function(objectData: nObject ) {
+    p5.prototype.nObject = function(objectData) {
         //nObject is a constructor function for an object with nDimensional verticies, edges and faces.
         // objectData must be an object with properties as follows: dimension: integer, vertices: nVector, edges, array[2], faces: array[3]
-        var obj: nObject;
-        
+        var obj = {};
         if (arguments.length == 1) {
             if (objectData.dimension > dimensionalSymbols.length) {
                 throw "P5JS ERROR: Dimension of object is too high!";
             }
-            
             obj.dimension = objectData.dimension;
             obj.vertices = objectData.vertices;
             obj.edges = objectData.edges;

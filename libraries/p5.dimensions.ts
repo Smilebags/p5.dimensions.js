@@ -4,7 +4,20 @@ interface nVector {
     x?: number;
     y?: number;
     z?: number;
-
+    nDist?: (v2:nVector) => number;
+    nDistSq?: (v2:nVector) => number;
+    nDot?: (v2:nVector) => nVector;
+    nLerp?: (v2:nVector, percent) => nVector;
+    nAdd?: (v2:nVector) => nVector;
+    nSub?: (v2:nVector) => nVector;
+    nMul?: (n:number) => nVector;
+    nDiv?: (n:number) => nVector;
+    nSetMag?: (n:number) => nVector;
+    // nCross?: (v2:nVector) => nVector;
+    nEqual?: (v2:nVector) => nVector;
+    nNormalize?: () => nVector;
+    nMag?: () => number;
+    nMagSq?: () => number;
 }
 
 interface nObject {
@@ -65,30 +78,30 @@ interface nMatrix {
         var output: string[] = Object.keys(vector).filter(function (i: string) { return dimensionalSymbols.includes(i) }); //filters values
         output = output.map(function (v) { return vector[v] }) //turns v1's values into an array
         return output;
-    }
+    };
 
-    function generateMethods(vector: (any)) {
-        vector.nDist = function (v2:nVector) { return nDist(this, v2) }
-        vector.nDistSq = function (v2) { return nDistSq(this, v2) }
-        vector.nDot = function (v2) { return nDot(this, v2) }
-        vector.nLerp = function (v2, percent) { return nLerp(this, v2, percent) }
-        vector.nAdd = function (v2) { return nAdd(this, v2) }
-        vector.nSub = function (v2) { return nSub(this, v2) }
-        vector.nMul = function (n) { return nMul(this, n) }
-        vector.nDiv = function (n) { return nDiv(this, n) }
-        vector.nSetMag = function (n) { return nSetMag(this, n) }
-        // vector.nCross = function(v2) { return nCross(this, v2) }
-        vector.nEqual = function (v2) { return nEqual(this, v2) }
-        vector.nNormalize = function () { return nNormalize(this) }
-        vector.nMag = function () { return nMag(this) }
-        vector.nMagSq = function () { return nMagSq(this) }
+    function generateMethods(vector: nVector) {
+        vector.nDist = function (v2:nVector) { return nDist(this, v2) };
+        vector.nDistSq = function (v2:nVector) { return nDistSq(this, v2) };
+        vector.nDot = function (v2:nVector) { return nDot(this, v2) };
+        vector.nLerp = function (v2:nVector, percent) { return nLerp(this, v2, percent) };
+        vector.nAdd = function (v2:nVector) { return nAdd(this, v2) };
+        vector.nSub = function (v2:nVector) { return nSub(this, v2) };
+        vector.nMul = function (n:number) { return nMul(this, n) };
+        vector.nDiv = function (n:number) { return nDiv(this, n) };
+        vector.nSetMag = function (n:number) { return nSetMag(this, n) };
+        // vector.nCross = function(v2) { return nCross(this, v2) };
+        vector.nEqual = function (v2:nVector) { return nEqual(this, v2) };
+        vector.nNormalize = function () { return nNormalize(this) };
+        vector.nMag = function () { return nMag(this) };
+        vector.nMagSq = function () { return nMagSq(this) };
         return vector as nVector;
-    }
+    };
 
     function nDist(v1: nVector, v2: nVector) {
         //nDist calculates the euclidean distance between two points(nVector objects), or between 'this' and another point. 
         return Math.sqrt(nDistSq(v1, v2));
-    }
+    };
     p5.prototype.nDist = nDist;
     function nDistSq(v1, v2) {
         //nDist calculates the euclidean distance between two points(nVector objects), or between 'this' and another point. 
@@ -111,7 +124,7 @@ interface nMatrix {
             obj[dimensionalSymbols[i]] = Math.round(Math.random() * (max - min) + min);
         }
         return generateMethods(obj);
-    }
+    };
     p5.prototype.nRandomVector = nRandomVector;
 
     function nDot(v1:nVector, v2:nVector) {
@@ -122,7 +135,7 @@ interface nMatrix {
             output += v1[dimensionalSymbols[i]] * v2[dimensionalSymbols[i]];
         }
         return output;
-    }
+    };
     p5.prototype.nDot = nDot;
 
     // p5.prototype.nCross = function(v1, v2) { // Returns cross of two vectors
@@ -276,7 +289,7 @@ interface nMatrix {
     p5.prototype.nLerp = nLerp;
 
 
-    p5.prototype.nObject = function (objectData: nObject) {
+    function nObject(objectData: nObject) {
         //nObject is a constructor function for an object with nDimensional verticies, edges and faces.
         // objectData must be an object with properties as follows: dimension: integer, vertices: nVector, edges, array[2], faces: array[3]
         var obj: nObject;
@@ -297,9 +310,10 @@ interface nMatrix {
             obj.faces = arguments[3];
         }
         return obj;
-    }
+    };
+    p5.prototype.nObject = nObject;
 
-    p5.prototype.nShift = function (object, forces) {
+    function nShift(object, forces) {
         if (forces.length != object.dimension) {
             throw "P5JS ERROR: You have too many dimensional movements!"
         } else {
@@ -310,5 +324,6 @@ interface nMatrix {
             }
         }
         return object;
-    }
+    };
+    p5.prototype.nShift = nShift;
 })();

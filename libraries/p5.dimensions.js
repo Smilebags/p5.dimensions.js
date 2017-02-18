@@ -35,6 +35,7 @@
         output = output.map(function (v) { return vector[v]; }); //turns v1's values into an array
         return output;
     }
+    ;
     function generateMethods(vector) {
         vector.nDist = function (v2) { return nDist(this, v2); };
         vector.nDistSq = function (v2) { return nDistSq(this, v2); };
@@ -45,17 +46,19 @@
         vector.nMul = function (n) { return nMul(this, n); };
         vector.nDiv = function (n) { return nDiv(this, n); };
         vector.nSetMag = function (n) { return nSetMag(this, n); };
-        // vector.nCross = function(v2) { return nCross(this, v2) }
+        // vector.nCross = function(v2) { return nCross(this, v2) };
         vector.nEqual = function (v2) { return nEqual(this, v2); };
         vector.nNormalize = function () { return nNormalize(this); };
         vector.nMag = function () { return nMag(this); };
         vector.nMagSq = function () { return nMagSq(this); };
         return vector;
     }
+    ;
     function nDist(v1, v2) {
         //nDist calculates the euclidean distance between two points(nVector objects), or between 'this' and another point. 
         return Math.sqrt(nDistSq(v1, v2));
     }
+    ;
     p5.prototype.nDist = nDist;
     function nDistSq(v1, v2) {
         //nDist calculates the euclidean distance between two points(nVector objects), or between 'this' and another point. 
@@ -78,6 +81,7 @@
         }
         return generateMethods(obj);
     }
+    ;
     p5.prototype.nRandomVector = nRandomVector;
     function nDot(v1, v2) {
         //implement dot product - which is equal to v1.x * v2.x + v1.y * v2.y ...
@@ -88,6 +92,7 @@
         }
         return output;
     }
+    ;
     p5.prototype.nDot = nDot;
     // p5.prototype.nCross = function(v1, v2) { // Returns cross of two vectors
     //     var output:nVector;
@@ -239,7 +244,7 @@
     }
     ;
     p5.prototype.nLerp = nLerp;
-    p5.prototype.nObject = function (objectData) {
+    function nObject(objectData) {
         //nObject is a constructor function for an object with nDimensional verticies, edges and faces.
         // objectData must be an object with properties as follows: dimension: integer, vertices: nVector, edges, array[2], faces: array[3]
         var obj;
@@ -259,8 +264,10 @@
             obj.faces = arguments[3];
         }
         return obj;
-    };
-    p5.prototype.nShift = function (object, forces) {
+    }
+    ;
+    p5.prototype.nObject = nObject;
+    function nShift(object, forces) {
         if (forces.length != object.dimension) {
             throw "P5JS ERROR: You have too many dimensional movements!";
         }
@@ -272,6 +279,8 @@
             }
         }
         return object;
-    };
+    }
+    ;
+    p5.prototype.nShift = nShift;
 })();
 //# sourceMappingURL=p5.dimensions.js.map

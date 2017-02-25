@@ -1,3 +1,4 @@
 Banner.psd
 *.db
 /.vscode
+/tests

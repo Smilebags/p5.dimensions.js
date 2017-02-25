@@ -13,11 +13,13 @@ interface nVector {
     nMul?: (n:number) => nVector;
     nDiv?: (n:number) => nVector;
     nSetMag?: (n:number) => nVector;
+    nPush?: (n:number) => nVector;
     // nCross?: (v2:nVector) => nVector;
     nEqual?: (v2:nVector) => nVector;
     nNormalize?: () => nVector;
     nMag?: () => number;
     nMagSq?: () => number;
+    dimension?: () => number;
 }
 
 interface nObject {
@@ -29,8 +31,10 @@ interface nObject {
 }
 
 interface nMatrix {
-    data: Number[][];
-    inverse(input: nMatrix): any;
+    data?: Number[][];
+    size?: [number,number];
+    inverse?: () => nMatrix;
+    multiply?: (input: nVector|nMatrix) => nVector|nMatrix;
 
 }
 
@@ -51,20 +55,60 @@ interface nMatrix {
     };
     p5.prototype.nVector = nVector;
     ;
-    function nMatrix(input: any[]) {
-        var output: nMatrix;
-        output.data = [
-            [1, 2, 3],
-            [1, 2, 3],
-            [1, 2, 3]
-        ];
-        output.inverse = function (matrix) {
-            // this is meant to find the inverse of the matrix
-            return 0;
+    function nMatrix(size: [number,number], input: any[]) {
+        // constructor function for a matrix. fills in a
+        var output: nMatrix = {};
+        output.size = size;
+        output.data = [];
+        for (var i = 0; i< size[1]; i++) {
+            output.data[i] = [];
+            for (var j = 0; j< size[0]; j++) {
+                output.data[i][j] = input[(i*size[0])+j];
+            }
         }
+        output.inverse = function () {
+            // this is meant to find the inverse of the matrix
+            return nMatrix([1,1],[1]);
+        }
+        output.multiply = function (vector) {
+                console.log("Im multiplying a vector!");
+                if (output.size[0] != vector.dimension()) {
+                    throw "Vector is wrong size for this matrix";
+                } else {
+                    var multipliedVector:nVector = {};
+                    for (var i = 0; i < vector.dimension(); i++) {
+                        multipliedVector[dimensionalSymbols[i]] = 0;
+                        for (var j = 0; j < vector.dimension(); j++) {
+                            multipliedVector[dimensionalSymbols[i]] += Number(output.data[i][j] * vector[dimensionalSymbols[j]]);
+                        }
+                    }
+                }
 
+            return generateMethods(multipliedVector) as nVector;
+        }
+        return output;
     };
     p5.prototype.nMatrix = nMatrix;
+    function projectThreeToTwo(vector: nVector) {
+        if (vector.dimension() != 3) {
+            throw "Three to Two projection matrix needs a 3 dimensional point."
+        }
+        
+        var workingVector = vector.nPush(1);
+        var threeToTwoProjectionMatrix = nMatrix(
+                                        [4,4],
+                                        [   1,0,0,0,
+                                            0,1,0,0,
+                                            0,0,1,0,
+                                            0,0,1,0
+                                        ]);
+        var multipliedVector:nVector = threeToTwoProjectionMatrix.multiply(workingVector);
+        multipliedVector = multipliedVector.nDiv(multipliedVector[dimensionalSymbols[3]]);
+        var output = nVector(multipliedVector[dimensionalSymbols[0]], multipliedVector[dimensionalSymbols[1]]);
+        return output;
+
+    }
+    p5.prototype.projectThreeToTwo = projectThreeToTwo;
 
 
 
@@ -95,6 +139,18 @@ interface nMatrix {
         vector.nNormalize = function () { return nNormalize(this) };
         vector.nMag = function () { return nMag(this) };
         vector.nMagSq = function () { return nMagSq(this) };
+        vector.nPush = function (number) {
+            var output: nVector = {};
+            var dimension = getVectorValues(this).length;
+            for (var i = 0; i < dimension; i++) {
+                output[dimensionalSymbols[i]] = this[dimensionalSymbols[i]];
+            }
+            output[dimensionalSymbols[dimension]] = number;
+            return generateMethods(output);
+        }
+        vector.dimension = function() {
+            return getVectorValues(this).length;
+        }
         return vector as nVector;
     };
 

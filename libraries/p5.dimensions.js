@@ -13,20 +13,57 @@
     ;
     p5.prototype.nVector = nVector;
     ;
-    function nMatrix(input) {
-        var output;
-        output.data = [
-            [1, 2, 3],
-            [1, 2, 3],
-            [1, 2, 3]
-        ];
-        output.inverse = function (matrix) {
+    function nMatrix(size, input) {
+        // constructor function for a matrix. fills in a
+        var output = {};
+        output.size = size;
+        output.data = [];
+        for (var i = 0; i < size[1]; i++) {
+            output.data[i] = [];
+            for (var j = 0; j < size[0]; j++) {
+                output.data[i][j] = input[(i * size[0]) + j];
+            }
+        }
+        output.inverse = function () {
             // this is meant to find the inverse of the matrix
-            return 0;
+            return nMatrix([1, 1], [1]);
         };
+        output.multiply = function (vector) {
+            console.log("Im multiplying a vector!");
+            if (output.size[0] != vector.dimension()) {
+                throw "Vector is wrong size for this matrix";
+            }
+            else {
+                var multipliedVector = {};
+                for (var i = 0; i < vector.dimension(); i++) {
+                    multipliedVector[dimensionalSymbols[i]] = 0;
+                    for (var j = 0; j < vector.dimension(); j++) {
+                        multipliedVector[dimensionalSymbols[i]] += Number(output.data[i][j] * vector[dimensionalSymbols[j]]);
+                    }
+                }
+            }
+            return generateMethods(multipliedVector);
+        };
+        return output;
     }
     ;
     p5.prototype.nMatrix = nMatrix;
+    function projectThreeToTwo(vector) {
+        if (vector.dimension() != 3) {
+            throw "Three to Two projection matrix needs a 3 dimensional point.";
+        }
+        var workingVector = vector.nPush(1);
+        var threeToTwoProjectionMatrix = nMatrix([4, 4], [1, 0, 0, 0,
+            0, 1, 0, 0,
+            0, 0, 1, 0,
+            0, 0, 1, 0
+        ]);
+        var multipliedVector = threeToTwoProjectionMatrix.multiply(workingVector);
+        multipliedVector = multipliedVector.nDiv(multipliedVector[dimensionalSymbols[3]]);
+        var output = nVector(multipliedVector[dimensionalSymbols[0]], multipliedVector[dimensionalSymbols[1]]);
+        return output;
+    }
+    p5.prototype.projectThreeToTwo = projectThreeToTwo;
     var dimensionalSymbols = ["x", "y", "z", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w",
         "xx", "yy", "zz", "aa", "bb", "cc", "dd", "ee", "ff", "gg", "hh", "ii", "jj", "kk", "ll", "mm", "nn", "oo", "pp", "qq", "rr", "ss", "tt", "uu", "vv", "ww"
     ];
@@ -51,6 +88,18 @@
         vector.nNormalize = function () { return nNormalize(this); };
         vector.nMag = function () { return nMag(this); };
         vector.nMagSq = function () { return nMagSq(this); };
+        vector.nPush = function (number) {
+            var output = {};
+            var dimension = getVectorValues(this).length;
+            for (var i = 0; i < dimension; i++) {
+                output[dimensionalSymbols[i]] = this[dimensionalSymbols[i]];
+            }
+            output[dimensionalSymbols[dimension]] = number;
+            return generateMethods(output);
+        };
+        vector.dimension = function () {
+            return getVectorValues(this).length;
+        };
         return vector;
     }
     ;

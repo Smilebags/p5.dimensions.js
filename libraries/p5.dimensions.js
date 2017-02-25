@@ -48,22 +48,41 @@
     }
     ;
     p5.prototype.nMatrix = nMatrix;
-    function projectThreeToTwo(vector) {
-        if (vector.dimension() != 3) {
-            throw "Three to Two projection matrix needs a 3 dimensional point.";
-        }
+    function perspectiveProjectionMatrix(vector) {
         var workingVector = vector.nPush(1);
-        var threeToTwoProjectionMatrix = nMatrix([4, 4], [1, 0, 0, 0,
-            0, 1, 0, 0,
-            0, 0, 1, 0,
-            0, 0, 1, 0
-        ]);
+        function createMatrix(dimension) {
+            var matrixString = "[";
+            for (var i = 0; i < dimension; i++) {
+                for (var j = 0; j < dimension; j++) {
+                    if (i == j) {
+                        matrixString += "1,";
+                    }
+                    else {
+                        matrixString += "0,";
+                    }
+                }
+                matrixString += "0,";
+            }
+            for (var k = 0; k <= dimension; k++) {
+                if (k == dimension - 1) {
+                    matrixString += "1,";
+                }
+                else {
+                    matrixString += "0,";
+                }
+            }
+            matrixString += "]";
+            return matrixString;
+        }
+        var threeToTwoMatrixString = createMatrix(3);
+        var matrixSize = vector.dimension() + 1;
+        var threeToTwoProjectionMatrix = nMatrix([matrixSize, matrixSize], eval(threeToTwoMatrixString));
         var multipliedVector = threeToTwoProjectionMatrix.multiply(workingVector);
         multipliedVector = multipliedVector.nDiv(multipliedVector[dimensionalSymbols[3]]);
         var output = nVector(multipliedVector[dimensionalSymbols[0]], multipliedVector[dimensionalSymbols[1]]);
         return output;
     }
-    p5.prototype.projectThreeToTwo = projectThreeToTwo;
+    p5.prototype.perspectiveProjectionMatrix = perspectiveProjectionMatrix;
     var dimensionalSymbols = ["x", "y", "z", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w",
         "xx", "yy", "zz", "aa", "bb", "cc", "dd", "ee", "ff", "gg", "hh", "ii", "jj", "kk", "ll", "mm", "nn", "oo", "pp", "qq", "rr", "ss", "tt", "uu", "vv", "ww"
     ];

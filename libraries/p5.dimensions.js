@@ -47,7 +47,7 @@
     }
     ;
     p5.prototype.nMatrix = nMatrix;
-    function perspectiveProjectionMatrix(vector) {
+    function perspectiveProjectionMatrix(vector, shift) {
         var workingVector = vector.nPush(1);
         function createMatrixString(dimension) {
             var outputString = "[";
@@ -65,6 +65,9 @@
             for (var k = 0; k <= dimension; k++) {
                 if (k == dimension - 1) {
                     outputString += "1,";
+                }
+                else if ((k == dimension)) {
+                    outputString += shift + ",";
                 }
                 else {
                     outputString += "0,";

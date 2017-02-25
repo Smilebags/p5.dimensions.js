@@ -9,7 +9,9 @@
 
 <body>
     <script>
-        var myCube;
+        var cubeSource;
+        var cubeModel;
+        var cubeShadow;
         var cameraControls = {
             x: 0,
             y: 0,
@@ -19,30 +21,78 @@
             rZ: 0,
             fov: 60
         };
+        var rotationMatrix;
+        var theta = 1;
+        var thetaDiff = 0.1;
 
         function setup() {
             createCanvas(500, 500, WEBGL);
-            myCube = createCube(100);
-            for (var i = 0; i < myCube.vertices.length; i++) {
-                myCube.vertices[i] = perspectiveProjectionMatrix(myCube.vertices[i]);
-            }
+
+            cubeSource = createCube(1);
+            cubeShadow = {
+                vertices: [],
+                edges: [],
+                faces: []
+            };
+            cubeModel = {
+                vertices: [],
+                edges: [],
+                faces: []
+            };
             ambientMaterial(250);
+            rotationMatrix = new nMatrix([4, 4], [Math.cos(theta), 0, 0, Math.sin(theta) * -1,
+                0, 1, 0, 0,
+                0, 0, 1, 0,
+                Math.sin(theta), 0, 0, Math.cos(theta)
+            ]);
+            rotateCube();
+            copyEdges(cubeSource, cubeModel);
+            copyEdges(cubeModel, cubeShadow);
+
         }
 
         function draw() {
+            theta = frameCount / 10;
+            rotationMatrix = new nMatrix([4, 4], [Math.cos(theta), 0, 0, Math.sin(theta) * -1,
+                0, 1, 0, 0,
+                0, 0, 1, 0,
+                Math.sin(theta), 0, 0, Math.cos(theta)
+            ]);
             // setUpCamera();
+            rotateCube();
+            projectCube();
             orbitControl();
             background(255);
-            myCube.edges.forEach(function(edge) {
+            scale(100);
+            drawCube();
+            theta += thetaDiff;
+        }
+
+        function rotateCube() {
+            for (var i = 0; i < cubeSource.vertices.length; i++) {
+                cubeModel.vertices[i] = rotationMatrix.multiply(cubeSource.vertices[i]);
+            };
+        };
+
+        function copyEdges(obj1, obj2) {
+            obj2.edges = obj1.edges;
+        }
+
+        function projectCube() {
+            for (var i = 0; i < cubeModel.vertices.length; i++) {
+                cubeShadow.vertices[i] = perspectiveProjectionMatrix(cubeModel.vertices[i], mouseX / 50);
+            };
+        };
+
+        function drawCube() {
+            cubeShadow.edges.forEach(function(edge) {
                 vertices = this.vertices;
                 beginShape();
                 vertex(vertices[edge[0]].x, vertices[edge[0]].y, vertices[edge[0]].z);
                 vertex(vertices[edge[1]].x, vertices[edge[1]].y, vertices[edge[1]].z);
                 endShape();
-            }, myCube);
-        }
-
-
+            }, cubeShadow);
+        };
 
         function createCube(size) {
             var shape = {
@@ -55,7 +105,7 @@
                 for (y = 0; y <= 1; y++) {
                     for (z = 0; z <= 1; z++) {
                         for (a = 0; a <= 1; a++) {
-                            shape.vertices.push(nVector((x - 0.5) * size, (y - 0.5) * size, (z - 0.5) * size, a + 1));
+                            shape.vertices.push(nVector((x - 0.5) * size, (y - 0.5) * size, (z - 0.5) * size, (a - 0.5) * size));
                         }
                         a--;
                         shape.edges.push([((x * 8) + (y * 4) + (z * 2) + a) - 1, ((x * 8) + (y * 4) + (z * 2) + a) - 0]);

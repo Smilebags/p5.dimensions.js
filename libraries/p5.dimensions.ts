@@ -89,7 +89,7 @@ interface nMatrix {
         return output;
     };
     p5.prototype.nMatrix = nMatrix;
-    function perspectiveProjectionMatrix(vector: nVector) {
+    function perspectiveProjectionMatrix(vector: nVector, shift: number) {
         
         var workingVector = vector.nPush(1);
         function createMatrixString(dimension) {
@@ -108,6 +108,8 @@ interface nMatrix {
             for (var k=0; k <= dimension; k++) {
                     if (k == dimension-1) {
                         outputString += "1,";
+                    } else if ((k == dimension)){
+                        outputString += shift + ",";
                     } else {
                         outputString += "0,";
                     }

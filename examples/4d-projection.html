@@ -23,6 +23,9 @@
         function setup() {
             createCanvas(500, 500, WEBGL);
             myCube = createCube(100);
+            for (var i = 0; i < myCube.vertices.length; i++) {
+                myCube.vertices[i] = perspectiveProjectionMatrix(myCube.vertices[i]);
+            }
             ambientMaterial(250);
         }
 
@@ -47,24 +50,38 @@
                 edges: [],
                 faces: []
             };
-            var x, y, z;
-            for (x = 0; x <= 1; x += 1) {
-                for (y = 0; y <= 1; y += 1) {
+            var x, y, z, a;
+            for (x = 0; x <= 1; x++) {
+                for (y = 0; y <= 1; y++) {
                     for (z = 0; z <= 1; z++) {
-                        shape.vertices.push(nVector((x - 0.5) * size, (y - 0.5) * size, (z - 0.5) * size));
+                        for (a = 0; a <= 1; a++) {
+                            shape.vertices.push(nVector((x - 0.5) * size, (y - 0.5) * size, (z - 0.5) * size, a + 1));
+                        }
+                        a--;
+                        shape.edges.push([((x * 8) + (y * 4) + (z * 2) + a) - 1, ((x * 8) + (y * 4) + (z * 2) + a) - 0]);
                     }
                     z--;
-                    shape.edges.push([((x * 4) + (y * 2) + z) - 1, ((x * 4) + (y * 2) + z) - 0]);
+                    shape.edges.push([((x * 8) + (y * 4) + (z * 2) + a) - 3, ((x * 8) + (y * 4) + (z * 2) + a) - 1]);
+                    shape.edges.push([((x * 8) + (y * 4) + (z * 2) + a) - 2, ((x * 8) + (y * 4) + (z * 2) + a) - 0]);
+
                 }
                 y--;
-                shape.edges.push([((x * 4) + (y * 2) + z) - 3, ((x * 4) + (y * 2) + z) - 1]);
-                shape.edges.push([((x * 4) + (y * 2) + z) - 2, ((x * 4) + (y * 2) + z) - 0]);
+                shape.edges.push([((x * 8) + (y * 4) + (z * 2) + a) - 7, ((x * 8) + (y * 4) + (z * 2) + a) - 3]);
+                shape.edges.push([((x * 8) + (y * 4) + (z * 2) + a) - 6, ((x * 8) + (y * 4) + (z * 2) + a) - 2]);
+                shape.edges.push([((x * 8) + (y * 4) + (z * 2) + a) - 5, ((x * 8) + (y * 4) + (z * 2) + a) - 1]);
+                shape.edges.push([((x * 8) + (y * 4) + (z * 2) + a) - 4, ((x * 8) + (y * 4) + (z * 2) + a) - 0]);
+
             }
             x--;
-            shape.edges.push([((x * 4) + (y * 2) + z) - 7, ((x * 4) + (y * 2) + z) - 3]);
-            shape.edges.push([((x * 4) + (y * 2) + z) - 6, ((x * 4) + (y * 2) + z) - 2]);
-            shape.edges.push([((x * 4) + (y * 2) + z) - 5, ((x * 4) + (y * 2) + z) - 1]);
-            shape.edges.push([((x * 4) + (y * 2) + z) - 4, ((x * 4) + (y * 2) + z) - 0]);
+            shape.edges.push([((x * 8) + (y * 4) + (z * 2) + a) - 15, ((x * 8) + (y * 4) + (z * 2) + a) - 7]);
+            shape.edges.push([((x * 8) + (y * 4) + (z * 2) + a) - 14, ((x * 8) + (y * 4) + (z * 2) + a) - 6]);
+            shape.edges.push([((x * 8) + (y * 4) + (z * 2) + a) - 13, ((x * 8) + (y * 4) + (z * 2) + a) - 5]);
+            shape.edges.push([((x * 8) + (y * 4) + (z * 2) + a) - 12, ((x * 8) + (y * 4) + (z * 2) + a) - 4]);
+            shape.edges.push([((x * 8) + (y * 4) + (z * 2) + a) - 11, ((x * 8) + (y * 4) + (z * 2) + a) - 3]);
+            shape.edges.push([((x * 8) + (y * 4) + (z * 2) + a) - 10, ((x * 8) + (y * 4) + (z * 2) + a) - 2]);
+            shape.edges.push([((x * 8) + (y * 4) + (z * 2) + a) - 9, ((x * 8) + (y * 4) + (z * 2) + a) - 1]);
+            shape.edges.push([((x * 8) + (y * 4) + (z * 2) + a) - 8, ((x * 8) + (y * 4) + (z * 2) + a) - 0]);
+
             return shape;
         };
     </script>

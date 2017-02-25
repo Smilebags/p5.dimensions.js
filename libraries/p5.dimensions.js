@@ -29,7 +29,6 @@
             return nMatrix([1, 1], [1]);
         };
         output.multiply = function (vector) {
-            console.log("Im multiplying a vector!");
             if (output.size[0] != vector.dimension()) {
                 throw "Vector is wrong size for this matrix";
             }
@@ -50,36 +49,36 @@
     p5.prototype.nMatrix = nMatrix;
     function perspectiveProjectionMatrix(vector) {
         var workingVector = vector.nPush(1);
-        function createMatrix(dimension) {
-            var matrixString = "[";
+        function createMatrixString(dimension) {
+            var outputString = "[";
             for (var i = 0; i < dimension; i++) {
                 for (var j = 0; j < dimension; j++) {
                     if (i == j) {
-                        matrixString += "1,";
+                        outputString += "1,";
                     }
                     else {
-                        matrixString += "0,";
+                        outputString += "0,";
                     }
                 }
-                matrixString += "0,";
+                outputString += "0,";
             }
             for (var k = 0; k <= dimension; k++) {
                 if (k == dimension - 1) {
-                    matrixString += "1,";
+                    outputString += "1,";
                 }
                 else {
-                    matrixString += "0,";
+                    outputString += "0,";
                 }
             }
-            matrixString += "]";
-            return matrixString;
+            outputString += "]";
+            return outputString;
         }
-        var threeToTwoMatrixString = createMatrix(3);
+        var matrixString = createMatrixString(vector.dimension());
         var matrixSize = vector.dimension() + 1;
-        var threeToTwoProjectionMatrix = nMatrix([matrixSize, matrixSize], eval(threeToTwoMatrixString));
-        var multipliedVector = threeToTwoProjectionMatrix.multiply(workingVector);
-        multipliedVector = multipliedVector.nDiv(multipliedVector[dimensionalSymbols[3]]);
-        var output = nVector(multipliedVector[dimensionalSymbols[0]], multipliedVector[dimensionalSymbols[1]]);
+        var projectionMatrix = nMatrix([matrixSize, matrixSize], eval(matrixString));
+        var multipliedVector = projectionMatrix.multiply(workingVector);
+        multipliedVector = multipliedVector.nDiv(multipliedVector[dimensionalSymbols[vector.dimension()]]);
+        var output = multipliedVector.nPop(2);
         return output;
     }
     p5.prototype.perspectiveProjectionMatrix = perspectiveProjectionMatrix;
@@ -114,6 +113,14 @@
                 output[dimensionalSymbols[i]] = this[dimensionalSymbols[i]];
             }
             output[dimensionalSymbols[dimension]] = number;
+            return generateMethods(output);
+        };
+        vector.nPop = function (number) {
+            var output = {};
+            var dimension = getVectorValues(this).length;
+            for (var i = 0; i < dimension - number; i++) {
+                output[dimensionalSymbols[i]] = this[dimensionalSymbols[i]];
+            }
             return generateMethods(output);
         };
         vector.dimension = function () {

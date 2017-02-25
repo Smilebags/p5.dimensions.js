@@ -1,0 +1,85 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <script language="javascript" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.6/p5.min.js"></script>
+    <script language="javascript" type="text/javascript" src="../libraries/p5.dimensions.js"></script>
+
+    <style>
+        body {
+            padding: 0;
+            margin: 0;
+        }
+        
+        .dimension-input {
+            width: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+
+
+
+    <form onsubmit="calculate(); return false;" autocomplete="off">
+        <label>First Point:</label><br />
+        <label>X:</label><input type="number" class="dimension-input" id="dimIn1" value="3" />
+        <label>Y:</label><input type="number" class="dimension-input" id="dimIn2" value="1" />
+        <label>Z:</label><input type="number" class="dimension-input" id="dimIn3" value="4" />
+        <label>A:</label><input type="number" class="dimension-input" id="dimIn4" value="1" />
+
+        <label>Output:</label>
+        <div id="output">
+            <span id="OutX">0.00</span>
+            <span id="OutY">0.00</span>
+            <span id="OutZ">0.00</span>
+            <!--<span id="OutA">0.00</span>-->
+        </div>
+    </form>
+
+
+
+
+    <script>
+        var distance;
+        var values;
+        var outputElement = document.getElementById("output");
+        var outX = document.getElementById("OutX");
+        var outY = document.getElementById("OutY");
+        var outZ = document.getElementById("OutZ");
+        // var outA = document.getElementById("OutA");
+
+        function setup() {
+            calculate();
+            noCanvas();
+        }
+
+        function draw() {
+            calculate();
+        }
+
+        function calculate() {
+            var a = parseFloat(document.getElementById("dimIn1").value) || 0;
+            var b = parseFloat(document.getElementById("dimIn2").value) || 0;
+            var c = parseFloat(document.getElementById("dimIn3").value) || 0;
+            var d = parseFloat(document.getElementById("dimIn4").value) || 0;
+            var values = {
+                pos1: nVector(a, b, c, d),
+                result: ''
+            };
+            values.result = perspectiveProjectionMatrix(values.pos1);
+            renderOutput(values.result);
+        }
+
+        function renderOutput(v1) {
+            outX.innerHTML = v1.x;
+            outY.innerHTML = v1.y;
+            outZ.innerHTML = v1.z;
+            // outA.innerHTML = v1.a;
+        };
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <script language="javascript" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.6/p5.min.js"></script>
+    <script language="javascript" type="text/javascript" src="../libraries/p5.dimensions.js"></script>
+</head>
+
+<body>
+    <script>
+        var myCube;
+        var cameraControls = {
+            x: 0,
+            y: 0,
+            z: 0,
+            rX: 0,
+            rY: 0,
+            rZ: 0,
+            fov: 60
+        };
+
+        function setup() {
+            calculate();
+            createCanvas(500, 500, WEBGL);
+            myCube = createCube(100);
+            ambientMaterial(250);
+        }
+
+        function draw() {
+            // setUpCamera();
+            orbitControl();
+            background(255);
+            myCube.edges.forEach(function(edge) {
+                vertices = this.vertices;
+                beginShape();
+                vertex(vertices[edge[0]].x, vertices[edge[0]].y, vertices[edge[0]].z);
+                vertex(vertices[edge[1]].x, vertices[edge[1]].y, vertices[edge[1]].z);
+                endShape();
+            }, myCube);
+        }
+
+
+
+        function createCube(size) {
+            var shape = {
+                vertices: [],
+                edges: [],
+                faces: []
+            };
+            var x, y, z;
+            for (x = 0; x <= 1; x += 1) {
+                for (y = 0; y <= 1; y += 1) {
+                    for (z = 0; z <= 1; z++) {
+                        shape.vertices.push(nVector((x - 0.5) * size, (y - 0.5) * size, (z - 0.5) * size));
+                    }
+                    z--;
+                    shape.edges.push([((x * 4) + (y * 2) + z) - 1, ((x * 4) + (y * 2) + z) - 0]);
+                }
+                y--;
+                shape.edges.push([((x * 4) + (y * 2) + z) - 3, ((x * 4) + (y * 2) + z) - 1]);
+                shape.edges.push([((x * 4) + (y * 2) + z) - 2, ((x * 4) + (y * 2) + z) - 0]);
+            }
+            x--;
+            shape.edges.push([((x * 4) + (y * 2) + z) - 7, ((x * 4) + (y * 2) + z) - 3]);
+            shape.edges.push([((x * 4) + (y * 2) + z) - 6, ((x * 4) + (y * 2) + z) - 2]);
+            shape.edges.push([((x * 4) + (y * 2) + z) - 5, ((x * 4) + (y * 2) + z) - 1]);
+            shape.edges.push([((x * 4) + (y * 2) + z) - 4, ((x * 4) + (y * 2) + z) - 0]);
+            return shape;
+        };
+    </script>
+</body>
+
+</html>

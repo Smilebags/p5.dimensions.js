@@ -395,12 +395,12 @@ interface nMatrix {
     };
     p5.prototype.nObject = nObject;
 
-    function nShift(object, forces) {
-        if (forces.length != object.dimension) {
+    function nShift(object:nObject, forces:nVector) {
+        if (forces.dimension() != object.dimension) {
             throw "P5JS ERROR: You have too many dimensional movements!"
         } else {
             for (var n = 0; n < object.vertices.length; n++) {
-                for (var i = 0; i < forces.length; i++) {
+                for (var i = 0; i < forces.dimension(); i++) {
                     object.vertices[n][dimensionalSymbols[i]] += forces[i]
                 }
             }

@@ -1,0 +1,140 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <script language="javascript" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.6/p5.min.js"></script>
+    <script language="javascript" type="text/javascript" src="../libraries/p5.dimensions.js"></script>
+</head>
+
+<body>
+    <script>
+        var cubeSource;
+        var cubeModel;
+        var cubeShadow;
+        var cameraControls = {
+            x: 0,
+            y: 0,
+            z: 0,
+            rX: 0,
+            rY: 0,
+            rZ: 0,
+            fov: 60
+        };
+        var rotationMatrix;
+        var theta = 1;
+        var thetaDiff = 0.1;
+
+        function setup() {
+            createCanvas(500, 500, WEBGL);
+
+            cubeSource = createCube(1);
+            cubeShadow = {
+                vertices: [],
+                edges: [],
+                faces: []
+            };
+            cubeModel = {
+                vertices: [],
+                edges: [],
+                faces: []
+            };
+            ambientMaterial(250);
+            rotationMatrix = new nMatrix([4, 4], [Math.cos(theta), 0, 0, Math.sin(theta) * -1,
+                0, 1, 0, 0,
+                0, 0, 1, 0,
+                Math.sin(theta), 0, 0, Math.cos(theta)
+            ]);
+            rotateCube();
+            copyEdges(cubeSource, cubeModel);
+            copyEdges(cubeModel, cubeShadow);
+
+        }
+
+        function draw() {
+            theta = frameCount / 10;
+            rotationMatrix = new nMatrix([4, 4], [Math.cos(theta), 0, 0, Math.sin(theta) * -1,
+                0, 1, 0, 0,
+                0, 0, 1, 0,
+                Math.sin(theta), 0, 0, Math.cos(theta)
+            ]);
+            // setUpCamera();
+            rotateCube();
+            projectCube();
+            orbitControl();
+            background(255);
+            scale(100);
+            drawCube();
+            theta += thetaDiff;
+        }
+
+        function rotateCube() {
+            for (var i = 0; i < cubeSource.vertices.length; i++) {
+                cubeModel.vertices[i] = rotationMatrix.multiply(cubeSource.vertices[i]);
+            };
+        };
+
+        function copyEdges(obj1, obj2) {
+            obj2.edges = obj1.edges;
+        }
+
+        function projectCube() {
+            for (var i = 0; i < cubeModel.vertices.length; i++) {
+                cubeShadow.vertices[i] = perspectiveProjectionMatrix(cubeModel.vertices[i], mouseX / 50);
+            };
+        };
+
+        function drawCube() {
+            cubeShadow.edges.forEach(function(edge) {
+                vertices = this.vertices;
+                beginShape();
+                vertex(vertices[edge[0]].x, vertices[edge[0]].y, vertices[edge[0]].z);
+                vertex(vertices[edge[1]].x, vertices[edge[1]].y, vertices[edge[1]].z);
+                endShape();
+            }, cubeShadow);
+        };
+
+        function createCube(size) {
+            var shape = {
+                vertices: [],
+                edges: [],
+                faces: []
+            };
+            var x, y, z, a;
+            for (x = 0; x <= 1; x++) {
+                for (y = 0; y <= 1; y++) {
+                    for (z = 0; z <= 1; z++) {
+                        for (a = 0; a <= 1; a++) {
+                            shape.vertices.push(nVector((x - 0.5) * size, (y - 0.5) * size, (z - 0.5) * size, (a - 0.5) * size));
+                        }
+                        a--;
+                        shape.edges.push([((x * 8) + (y * 4) + (z * 2) + a) - 1, ((x * 8) + (y * 4) + (z * 2) + a) - 0]);
+                    }
+                    z--;
+                    shape.edges.push([((x * 8) + (y * 4) + (z * 2) + a) - 3, ((x * 8) + (y * 4) + (z * 2) + a) - 1]);
+                    shape.edges.push([((x * 8) + (y * 4) + (z * 2) + a) - 2, ((x * 8) + (y * 4) + (z * 2) + a) - 0]);
+
+                }
+                y--;
+                shape.edges.push([((x * 8) + (y * 4) + (z * 2) + a) - 7, ((x * 8) + (y * 4) + (z * 2) + a) - 3]);
+                shape.edges.push([((x * 8) + (y * 4) + (z * 2) + a) - 6, ((x * 8) + (y * 4) + (z * 2) + a) - 2]);
+                shape.edges.push([((x * 8) + (y * 4) + (z * 2) + a) - 5, ((x * 8) + (y * 4) + (z * 2) + a) - 1]);
+                shape.edges.push([((x * 8) + (y * 4) + (z * 2) + a) - 4, ((x * 8) + (y * 4) + (z * 2) + a) - 0]);
+
+            }
+            x--;
+            shape.edges.push([((x * 8) + (y * 4) + (z * 2) + a) - 15, ((x * 8) + (y * 4) + (z * 2) + a) - 7]);
+            shape.edges.push([((x * 8) + (y * 4) + (z * 2) + a) - 14, ((x * 8) + (y * 4) + (z * 2) + a) - 6]);
+            shape.edges.push([((x * 8) + (y * 4) + (z * 2) + a) - 13, ((x * 8) + (y * 4) + (z * 2) + a) - 5]);
+            shape.edges.push([((x * 8) + (y * 4) + (z * 2) + a) - 12, ((x * 8) + (y * 4) + (z * 2) + a) - 4]);
+            shape.edges.push([((x * 8) + (y * 4) + (z * 2) + a) - 11, ((x * 8) + (y * 4) + (z * 2) + a) - 3]);
+            shape.edges.push([((x * 8) + (y * 4) + (z * 2) + a) - 10, ((x * 8) + (y * 4) + (z * 2) + a) - 2]);
+            shape.edges.push([((x * 8) + (y * 4) + (z * 2) + a) - 9, ((x * 8) + (y * 4) + (z * 2) + a) - 1]);
+            shape.edges.push([((x * 8) + (y * 4) + (z * 2) + a) - 8, ((x * 8) + (y * 4) + (z * 2) + a) - 0]);
+
+            return shape;
+        };
+    </script>
+</body>
+
+</html>
